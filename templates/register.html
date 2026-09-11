@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Create account | Oakwood Life Center{% endblock %}
+{% block content %}
+<section class="form-panel"><p class="eyebrow">New account</p><h1>Create your account</h1>
+<form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Email<input type="email" name="email" autocomplete="email" required></label>
+    <label>Password<input type="password" name="password" autocomplete="new-password" minlength="12" required><small>At least 12 characters.</small></label>
+    <button class="button" type="submit">Create account</button>
+</form>
+<p class="muted">Already registered? <a href="{{ url_for('login') }}">Sign in</a>.</p></section>
+{% endblock %}

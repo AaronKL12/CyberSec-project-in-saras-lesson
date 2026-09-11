@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Your details | Oakwood Life Center{% endblock %}
+{% block content %}
+<section class="form-panel wide"><p class="eyebrow">Private profile</p><h1>Your details</h1><p class="muted">Only your signed-in account can read or update this record.</p>
+<form method="post" class="grid-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Full name<input name="full_name" value="{{ profile.full_name if profile else '' }}" autocomplete="name" required></label>
+    <label>Date of birth<input type="date" name="date_of_birth" value="{{ profile.date_of_birth if profile and profile.date_of_birth else '' }}"></label>
+    <label>Institution<input name="institution" value="{{ profile.institution if profile and profile.institution else '' }}"></label>
+    <label>Qualification<input name="qualification" value="{{ profile.qualification if profile and profile.qualification else '' }}"></label>
+    <label>Graduation year<input type="number" name="graduation_year" min="1900" max="2200" value="{{ profile.graduation_year if profile and profile.graduation_year else '' }}"></label>
+    <div><button class="button" type="submit">Save details</button></div>
+</form></section>
+{% endblock %}

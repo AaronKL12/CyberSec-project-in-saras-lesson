@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Oakwood Life Center{% endblock %}
+{% block content %}
+<section class="intro">
+    <p class="eyebrow">Move well. Live well.</p>
+    <h1>Oakwood Life Center</h1>
+    <p class="lede">Book your next spinning, swimming, or weight room session and keep every appointment in one private dashboard.</p>
+    <div class="actions"><a class="button" href="{{ url_for('register') }}">Create account</a><a class="button secondary" href="{{ url_for('login') }}">Sign in</a></div>
+</section>
+{% endblock %}

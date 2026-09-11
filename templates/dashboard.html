@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Oakwood Life Center{% endblock %}
+{% block content %}
+<section class="dashboard-head">
+    <div><p class="eyebrow">Member dashboard</p><h1>Your sessions</h1><p class="lede">Book a session and keep track of your upcoming visits.</p></div>
+</section>
+<section class="dashboard-grid">
+    <div class="form-panel booking-panel">
+        <p class="eyebrow">New booking</p><h2>Book a gym session</h2>
+        <form method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>Session type<select name="session_type" required><option value="">Choose a session</option>{% for session_type in session_types %}<option value="{{ session_type }}">{{ session_type }}</option>{% endfor %}</select></label>
+            <label>Date<input type="date" name="session_date" min="{{ today }}" required></label>
+            <button class="button" type="submit">Book session</button>
+        </form>
+    </div>
+    <div class="sessions-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Your bookings</p><h2>Upcoming sessions</h2></div><span class="session-count">{{ bookings|length }}</span></div>
+        {% if bookings %}
+        <div class="session-list">{% for booking in bookings %}<article class="session-item"><div><strong>{{ booking.session_type }}</strong><time datetime="{{ booking.session_date }}">{{ booking.session_date }}</time></div><form method="post" action="{{ url_for('delete_booking', booking_id=booking._id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="delete-button" type="submit">Cancel</button></form></article>{% endfor %}</div>
+        {% else %}<p class="empty-state">You have no sessions booked yet.</p>{% endif %}
+    </div>
+</section>
+{% endblock %}
