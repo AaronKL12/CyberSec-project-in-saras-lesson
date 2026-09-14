@@ -192,6 +192,39 @@ def delete_booking(booking_id):
     return redirect(url_for("dashboard"))
 
 
+@app.post("/dashboard/bookings/<booking_id>/date")
+@login_required
+def update_booking_date(booking_id):
+    try:
+        booking_object_id = ObjectId(booking_id)
+    except InvalidId:
+        flash("That booking could not be found.", "error")
+        return redirect(url_for("dashboard"))
+
+    session_date = request.form.get("session_date", "").strip()
+    try:
+        parsed_date = date.fromisoformat(session_date)
+    except ValueError:
+        flash("Choose a valid session date.", "error")
+        return redirect(url_for("dashboard"))
+    if parsed_date < date.today():
+        flash("Choose today or a future date.", "error")
+        return redirect(url_for("dashboard"))
+
+    result = bookings_collection.update_one(
+        {
+            "_id": booking_object_id,
+            "user_id": ObjectId(current_user.id),
+        },
+        {"$set": {"session_date": parsed_date.isoformat()}},
+    )
+    if result.matched_count:
+        flash("Your gym session date was updated.", "success")
+    else:
+        flash("That booking could not be found.", "error")
+    return redirect(url_for("dashboard"))
+
+
 @app.route("/profile", methods=["GET", "POST"])
 @account_profile_required
 def profile():
