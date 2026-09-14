@@ -242,14 +242,24 @@ def profile():
             flash("Enter a valid date of birth.", "error")
             return render_template("profile.html", profile=profile_record)
 
+        height_value = request.form.get("height", "").strip()
+        weight_value = request.form.get("weight", "").strip()
+        try:
+            height = float(height_value) if height_value else None
+            weight = float(weight_value) if weight_value else None
+        except ValueError:
+            flash("Enter valid height and weight values.", "error")
+            return render_template("profile.html", profile=profile_record)
+        if (height is not None and height <= 0) or (weight is not None and weight <= 0):
+            flash("Height and weight must be greater than zero.", "error")
+            return render_template("profile.html", profile=profile_record)
+
         profile_record = {
             "full_name": full_name,
             "date_of_birth": parsed_date.isoformat() if parsed_date else None,
-            "institution": request.form.get("institution", "").strip() or None,
-            "qualification": request.form.get("qualification", "").strip() or None,
+            "height": height,
+            "weight": weight,
         }
-        graduation_year = request.form.get("graduation_year", "").strip()
-        profile_record["graduation_year"] = int(graduation_year) if graduation_year.isdigit() else None
         users_collection.update_one(
             {"_id": ObjectId(current_user.id)},
             {"$set": {"profile": profile_record}},

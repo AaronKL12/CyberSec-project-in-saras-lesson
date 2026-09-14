@@ -6,9 +6,8 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label>Full name<input name="full_name" value="{{ profile.full_name if profile else '' }}" autocomplete="name" required></label>
     <label>Date of birth<input type="date" name="date_of_birth" value="{{ profile.date_of_birth if profile and profile.date_of_birth else '' }}"></label>
-    <label>Institution<input name="institution" value="{{ profile.institution if profile and profile.institution else '' }}"></label>
-    <label>Qualification<input name="qualification" value="{{ profile.qualification if profile and profile.qualification else '' }}"></label>
-    <label>Graduation year<input type="number" name="graduation_year" min="1900" max="2200" value="{{ profile.graduation_year if profile and profile.graduation_year else '' }}"></label>
+    <label>Height (cm)<input type="number" name="height" min="1" max="300" step="0.1" value="{{ profile.height if profile and profile.height else '' }}"></label>
+    <label>Weight (kg)<input type="number" name="weight" min="1" max="500" step="0.1" value="{{ profile.weight if profile and profile.weight else '' }}"></label>
     <div><button class="button" type="submit">Save details</button></div>
 </form></section>
 {% endblock %}
